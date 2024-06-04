@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
 
 class ApiSimulationController extends Controller
 {
@@ -20,32 +18,7 @@ class ApiSimulationController extends Controller
         $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php';
         $queryParams = http_build_query($validatedData);
 
-        try {
-            // Simulación del envío de la solicitud
-            $response = Http::get($endpointUrl . '?' . $queryParams);
-
-            // Verificar si la solicitud fue exitosa
-            if ($response->successful()) {
-                $responseData = $response->json();
-            } else {
-                $responseData = [
-                    'error' => 'Failed to connect to the external endpoint',
-                    'status' => $response->status(),
-                    'body' => $response->body()
-                ];
-            }
-        } catch (\Exception $e) {
-            $responseData = [
-                'error' => 'Exception occurred while trying to connect to the external endpoint',
-                'message' => $e->getMessage()
-            ];
-        }
-
-        // Retornar la respuesta
-        return response()->json([
-            'status' => 'success',
-            'data' => $validatedData,
-            'response' => $responseData
-        ]);
+        // Redirigir a la URL con los parámetros
+        return redirect($endpointUrl . '?' . $queryParams);
     }
 }
