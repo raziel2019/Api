@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+
 class ApiSimulationController extends Controller
 {
     public function simulate(Request $request)
@@ -21,7 +22,7 @@ class ApiSimulationController extends Controller
         ]);
 
         // URL del endpoint externo
-        $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php?' . $queryParams;
+        $endpointUrl = 'https://banorte.racielhernandez.com/?' . $queryParams;
 
         // Retornar la URL generada
         return response()->json([
