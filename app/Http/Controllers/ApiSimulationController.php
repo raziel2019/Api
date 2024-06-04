@@ -16,12 +16,13 @@ class ApiSimulationController extends Controller
             'amountDetails.currency' => 'required|string|max:3',
         ]);
 
-          // URL del endpoint externo
-          $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php'; // Cambia esto por la URL real del endpoint
+        // Construir la URL con parámetros de consulta
+        $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php';
+        $queryParams = http_build_query($validatedData);
 
-          try {
+        try {
             // Simulación del envío de la solicitud
-            $response = Http::post($endpointUrl, $validatedData);
+            $response = Http::get($endpointUrl . '?' . $queryParams);
 
             // Verificar si la solicitud fue exitosa
             if ($response->successful()) {
