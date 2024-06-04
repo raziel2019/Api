@@ -2,7 +2,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 class ApiSimulationController extends Controller
 {
     public function simulate(Request $request)
@@ -24,7 +23,10 @@ class ApiSimulationController extends Controller
         // URL del endpoint externo
         $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php?' . $queryParams;
 
-        // Redirigir a la URL con los parámetros
-        return redirect($endpointUrl);
+        // Retornar la URL generada
+        return response()->json([
+            'status' => 'success',
+            'url' => $endpointUrl
+        ]);
     }
 }
