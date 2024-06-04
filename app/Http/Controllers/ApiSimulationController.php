@@ -19,13 +19,32 @@ class ApiSimulationController extends Controller
           // URL del endpoint externo
           $endpointUrl = 'https://banorte.racielhernandez.com/'; // Cambia esto por la URL real del endpoint
 
-          // Simulación del envío de la solicitud
-          $response = Http::post($endpointUrl, $validatedData);
+          try {
+            // Simulación del envío de la solicitud
+            $response = Http::post($endpointUrl, $validatedData);
 
-          return response()->json([
+            // Verificar si la solicitud fue exitosa
+            if ($response->successful()) {
+                $responseData = $response->json();
+            } else {
+                $responseData = [
+                    'error' => 'Failed to connect to the external endpoint',
+                    'status' => $response->status(),
+                    'body' => $response->body()
+                ];
+            }
+        } catch (\Exception $e) {
+            $responseData = [
+                'error' => 'Exception occurred while trying to connect to the external endpoint',
+                'message' => $e->getMessage()
+            ];
+        }
+
+        // Retornar la respuesta
+        return response()->json([
             'status' => 'success',
             'data' => $validatedData,
-            'response' => $response->json()
+            'response' => $responseData
         ]);
     }
 }
