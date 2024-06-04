@@ -14,11 +14,17 @@ class ApiSimulationController extends Controller
             'amountDetails.currency' => 'required|string|max:3',
         ]);
 
-        // Construir la URL con parámetros de consulta
-        $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php';
-        $queryParams = http_build_query($validatedData);
+        // Convertir la estructura anidada en una plana para que sea compatible con la URL
+        $queryParams = http_build_query([
+            'petition_id' => $validatedData['petition']['id'],
+            'totalAmount' => $validatedData['amountDetails']['totalAmount'],
+            'currency' => $validatedData['amountDetails']['currency'],
+        ]);
+
+        // URL del endpoint externo
+        $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php?' . $queryParams;
 
         // Redirigir a la URL con los parámetros
-        return redirect($endpointUrl . '?' . $queryParams);
+        return redirect($endpointUrl);
     }
 }
