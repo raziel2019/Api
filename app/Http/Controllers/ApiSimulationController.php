@@ -17,7 +17,7 @@ class ApiSimulationController extends Controller
         ]);
 
           // URL del endpoint externo
-          $endpointUrl = 'https://banorte.racielhernandez.com/'; // Cambia esto por la URL real del endpoint
+          $endpointUrl = 'https://banorte.racielhernandez.com/receive_data.php'; // Cambia esto por la URL real del endpoint
 
           try {
             // Simulación del envío de la solicitud
