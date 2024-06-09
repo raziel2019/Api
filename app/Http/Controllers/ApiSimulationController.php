@@ -1,33 +1,47 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+
 
 class ApiSimulationController extends Controller
 {
     public function simulate(Request $request)
     {
+        $uniqueID = Str::uuid()->toString();
+
         // Validar los datos recibidos
         $validatedData = $request->validate([
-            'petition.id' => 'required|string',
+            'productDetails.description' => 'required|string',
             'amountDetails.totalAmount' => 'required|numeric',
             'amountDetails.currency' => 'required|string|max:3',
         ]);
 
-        // Convertir la estructura anidada en una plana para que sea compatible con la URL
-        $queryParams = http_build_query([
-            'petition_id' => $validatedData['petition']['id'],
-            'totalAmount' => $validatedData['amountDetails']['totalAmount'],
-            'currency' => $validatedData['amountDetails']['currency'],
-        ]);
+        // Convertir la data reciba en array
+        $data = [
+            'id_transaccion' => $uniqueID,
+            'productDetails.description' => $validatedData['productDetails']['description'],
+            'amountDetails.totalAmount' => $validatedData['amountDetails']['totalAmount'],
+            'amountDetails.currency' => $validatedData['amountDetails']['currency']
+        ];
+
 
         // URL del endpoint externo
-        $endpointUrl = 'https://banorte.racielhernandez.com/?' . $queryParams;
+        $response = Http::post('https://banorte.racielhernandez.com/', $data);
 
-        // Retornar la URL generada
-        return response()->json([
-            'status' => 'success',
-            'url' => $endpointUrl
-        ]);
+
+        if ($response->successful()) {
+            return response()->json([
+                'status' => 'success',
+                'url' => "https://banorte.racielhernandez.com?id_transaccion={$uniqueID}"
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Error al enviar los datos al endpoint externo'
+            ], 500);
+        }
     }
 }

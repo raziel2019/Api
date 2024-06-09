@@ -9,5 +9,5 @@ Route::get('/test', function () {
     return 'check';
 });
 
-Route::get('/simulate', [ApiSimulationController::class, 'simulate']);
+Route::post('/simulate', [ApiSimulationController::class, 'simulate']);
 
