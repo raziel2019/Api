@@ -10,4 +10,6 @@ Route::get('/test', function () {
 });
 
 Route::post('/simulate', [ApiSimulationController::class, 'simulate']);
+Route::get('/obtener-datos', [ApiSimulationController::class, 'obtenerDatos']);
+
 

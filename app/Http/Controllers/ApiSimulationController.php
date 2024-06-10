@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\Transaccion;
 use Illuminate\Support\Facades\Http;
 
 
@@ -18,6 +19,14 @@ class ApiSimulationController extends Controller
             'amountDetails.totalAmount' => 'required|numeric',
             'amountDetails.currency' => 'required|string|max:3',
         ]);
+
+                // Guardar los datos en la base de datos
+                Transaccion::create([
+                    'id_transaccion' => $uniqueID,
+                    'productDetails_description' => $validatedData['productDetails']['description'],
+                    'amountDetails_totalAmount' => $validatedData['amountDetails']['totalAmount'],
+                    'amountDetails_currency' => $validatedData['amountDetails']['currency'],
+                ]);
 
         // Convertir la data reciba en array
         $data = [
@@ -44,4 +53,16 @@ class ApiSimulationController extends Controller
             ], 500);
         }
     }
+
+    public function obtenerDatos(Request $request)
+    {
+            $idTransaccion = $request->query('id_transaccion');
+            $transaccion = Transaccion::where('id_transaccion', $idTransaccion)->first();
+
+            if ($transaccion) {
+                return response()->json(['status' => 'success', 'data' => $transaccion]);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Transacción no encontrada']);
+            }
+        }
 }
