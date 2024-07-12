@@ -15,25 +15,37 @@ class ApiSimulationController extends Controller
 
         // Validar los datos recibidos
         $validatedData = $request->validate([
-            'productDetails.description' => 'required|string',
-            'amountDetails.totalAmount' => 'required|numeric',
-            'amountDetails.currency' => 'required|string|max:3',
-        ]);
+            'nombre' => 'required|string',
+            'codigo_postal' => 'required|numeric',
+            'email' => 'required|string',
+            'telefono' => 'required|string',
+            'rfc' => 'required|string',
+            'selected-assistances' => 'required|string',
+            'total-price' => 'required|numeric'
+            ]);
 
                 // Guardar los datos en la base de datos
                 Transaccion::create([
                     'id_transaccion' => $uniqueID,
-                    'productDetails_description' => $validatedData['productDetails']['description'],
-                    'amountDetails_totalAmount' => $validatedData['amountDetails']['totalAmount'],
-                    'amountDetails_currency' => $validatedData['amountDetails']['currency'],
+                    'nombre' => $validatedData['nombre'],
+                    'codigo_postal' => $validatedData['codigo_postal'],
+                    'email' => $validatedData['email'],
+                    'telefono' => $validatedData['telefono'],
+                    'rfc' => $validatedData['rfc'],
+                    'selected_assistances' => $validatedData['selected-assistances'],
+                    'total_price' => $validatedData['total-price'],
                 ]);
 
         // Convertir la data reciba en array
         $data = [
             'id_transaccion' => $uniqueID,
-            'productDetails.description' => $validatedData['productDetails']['description'],
-            'amountDetails.totalAmount' => $validatedData['amountDetails']['totalAmount'],
-            'amountDetails.currency' => $validatedData['amountDetails']['currency']
+            'nombre' => $validatedData['nombre'],
+            'codigo_postal' => $validatedData['codigo_postal'],
+            'email' => $validatedData['email'],
+            'telefono' => $validatedData['telefono'],
+            'rfc' => $validatedData['rfc'],
+            'selected_assistances' => $validatedData['selected-assistances'],
+            'total_price' => $validatedData['total-price']
         ];
 
 
