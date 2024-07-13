@@ -11,12 +11,16 @@ class Transaccion extends Model
 
     protected $fillable = [
         'id_transaccion',
-        'productDetails_description',
-        'amountDetails_totalAmount',
-        'amountDetails_currency',
+        'nombre',
+        'codigo_postal',
+        'email',
+        'telefono',
+        'rfc',
+        'selected_assistances',
+        'total_price',
     ];
 
     protected $casts = [
-        'amountDetails_totalAmount' => 'decimal:2',
+        'total_price' => 'decimal:2',
     ];
 }

@@ -14,9 +14,13 @@ return new class extends Migration
         Schema::create('transaccions', function (Blueprint $table) {
             $table->id();
             $table->uuid('id_transaccion')->unique();
-            $table->string('productDetails_description');
-            $table->decimal('amountDetails_totalAmount', 8, 2);
-            $table->string('amountDetails_currency', 3);
+            $table->string('nombre');
+            $table->string('codigo_postal');
+            $table->string('email');
+            $table->string('telefono');
+            $table->string('rfc');
+            $table->string('selected_assistances');
+            $table->decimal('total_price', 8, 2);
             $table->timestamps();
         });
     }
